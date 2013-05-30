@@ -17,7 +17,7 @@ var distance;
 var itemsShown = {};
 var userPoint = {};
 var nearestState;
-var states = {};
+var states = new Array();
 var condition = 'new';
 function uiPageSet() {
 	wHeight = $('.page').height()
@@ -76,6 +76,7 @@ function categoriesList() {
 function loadCountries() {
 	doGet('./statesJson.txt', locationSet);
 }
+
 function locationSet(data) {
 	nearestState = data[0];
 	var nearestCity = data[0].cities[0];
@@ -85,9 +86,9 @@ function locationSet(data) {
 		var state = {};
 		state.name = data[i].name;
 		state.id = data[i].id;
-		states[i] =  state;
+		states[i-1] =  state;
 		for (var j=0; j < data[i].cities.length; j++) {
-			var cityAux = data[i].cities[j];
+			cityAux = data[i].cities[j];
 			cityAux.distance = getModule(cityAux, userPoint);
 			if (nearestCity.distance > cityAux.distance) {
 				nearestCity = cityAux;
@@ -176,9 +177,20 @@ $('.inter-search-btn').click(function(){
 	searchQuery();
 });
 $('.btn-geolocation').click(function(){
-	getPage(index, stateSelect)
+	$('.location-set').show();
+	var obj = {};
+	obj.states = states;
 	var statesData = $('.tmp-states').html();
-	$('.states-list').html(Mustache.render( statesData, states));
+	$('.states-list').html(Mustache.render( statesData, obj));
+	var optionSelect = '.states-list #'+nearestState.id;
+	$(optionSelect).attr("selected","selected");
+	$('.location-set .state').html(nearestState.name);
+});
+$('.close-modal').click(function() {
+	$(this).parent().hide();
+})
+$('.states-list option').click(function() {
+	alert($(this).attr('id'));
 });
 function searchQuery() {
 	var standardDeviation = getPrices();

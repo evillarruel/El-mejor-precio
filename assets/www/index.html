@@ -206,44 +206,25 @@
 				</ul>
 			</div>
 	        </div>
-		<div class="page" id="stateSelect" data-page="stateSelect" data-role="page">
-			<div class="header simple">
-				<div class="ch-icon-chevron-left back-list"></div>
-				<div class="">
-				</div>
-			</div>
-			<div class="content type-2">
-				<div id="message"></div>
-				<div class="states-list">
-					
-				</div>
-				<div class="tmp-states" style="display: none">
-					<select>
-						
-							<option value="zx">{{name}}</option>
-						
-					</select>
+		<div class="location-set" style="display: none; position: absolute;top: 30%;bottom: 30%;left: 8%;right: 8%;background-color: #fff;">
+			<div class="close-modal">X</div>
+			<div class="state-details">
+				Tus búsquedas se están realizando en <b class="state"></b>.
+				<br>Si deseas cambiar la provincia selecciona otra del siguiente listado.
+			 </div>
+			<div class="states-list">
 				
-				</div>
 			</div>
-				
-			<div class="footer" >
-				<ul>
-					<li>
-						<i class="ch-icon-map-marker"></i>
-						Ubicaci&#243;n
-					</li>
-					<li onclick="javascript:login()">
-						<i class="ch-icon-star-empty"></i>
-						Favoritos
-					</li>
-					<li>
-						<i class="ch-icon-info-sign"></i>
-						Informaci&#243;n
-					</li>
-				</ul>
+			<div class="tmp-states" style="display: none">
+				<select>
+					<option value="{{id}}">{{name}}</option>
+					{{#states}}
+						<option id="{{id}}" value="{{name}}">{{name}}</option>
+					{{/states}}
+				</select>
+			
 			</div>
-        </div>
+		</div>
         <script type="text/javascript" src="js/cordova-2.7.0.js"></script>
         <script type="text/javascript" src="js/zepto.min.js"></script>
         <script type="text/javascript" src="js/mercadolibre-1.0.4.js"></script>
