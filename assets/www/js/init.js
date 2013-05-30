@@ -48,7 +48,6 @@ function geoSuccess(point) {
 	//userPoint.longitude = point.coords.longitude; 
 	userPoint.latitude = '-31.3526556'; 
 	userPoint.longitude = '-64.2460254';
-	alert('geoSuccess: ' + userPoint.longitude);
 	loadCountries();
 }
 function geoError() {
