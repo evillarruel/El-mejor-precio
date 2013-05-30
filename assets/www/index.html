@@ -4,8 +4,11 @@
         <meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <title>Hello World</title>
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+        <link rel="stylesheet" type="text/css" href="css/chico-mobile-min-0.6.css.css" />
+        <link rel="stylesheet" type="text/css" href="css/mesh-min-2.1.css" />
+        <link rel="stylesheet" type="text/css" href="css/reset-min-0.13.2.css.css" />
+        <title>El mejor precio</title>
     </head>
     <body>
         <div class="app">
@@ -15,8 +18,238 @@
                 <p class="event received">Device is Ready</p>
             </div>
         </div>
-        <script type="text/javascript" src="cordova-2.7.0.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
+        <div class="ch-loading-wrap">
+			<p class="ch-loading-text"></p>
+		</div>
+		<div class="ch-msg-wrap">
+			<span class="icon"></span>
+			<p class="ch-msg-text">No encontramos restultado para tu busqueda.</p>
+		</div>
+		<div class="page active" id="index" data-page="index" data-role="page">
+			<div class="home">
+				<div class="logo-home">
+					<img src="images/logo.png" alt="El Mejor Precio">
+						<br>
+					<img src="images/frase-home.png" alt="El Mejor Precio"> 
+				</div>
+				<div class="search-box">
+					<form id="index-form" onsubmit="javascript:search();return false;">
+						<input placeholder="Producto..." required="required" class="ch-points-ltrt labelSearch" id="labelSearch" type="text" />
+						<span class="ch-loading-small"></span>
+						<div class="btn-geolocation"></div>
+						<br>
+						<input class="ch-btn ch-btn-big search-btn" type="submit" value="Buscar" />
+					</form>	
+				</div>
+				<div id="message"></div>
+			</div>
+		</div>
+		<div class="page" id="productList" data-page="productList" data-role="page">
+			
+			<div class="header">
+				<img class="go-home" src="images/logo-small.png">
+				<div class="search-home">
+					<form id="index-form" onsubmit="javascript:search();return false;">
+						<input id="search" class="ch-points-ltrt interLabelSearch" type="search" placeholder="Producto..." size="35" required="required" name="email">
+						<a class="ch-icon-search ico-search-home inter-search-btn"></a>
+					</form>	
+				</div>
+				<button class="YOUR_SELECTOR_Modal_invisible btn-geolocation"></button>
+				<div class="filter">
+					<input class="active new" type="button" value="Nuevos">
+					<input class="used" type="button" value="Usados">
+					<span class="ch-loading-small"></span>
+				</div>
+			</div>
+			<div class="content type-1">
+				<div id="message"></div>
+				<ul class="products">
+					
+				</ul>
+				<ul class="ch-pagination">
+					<li><a href="#" onclick="javascript:loadItems()" type="next">Next ></a></li>
+				</ul>
+				<div class="tmp-item" style="display: none">
+					{{#results}}
+					<li id="{{id}}" class="list-product" style="display: none">
+						<div class="wrap-item" onclick="viewItem({{id}})">
+							<div class="ch-g2-3">
+								<img src="{{thumbnail}}" >
+								<span class="name">
+									{{title}}
+								</span>
+								<span class="location">
+									{{address.state_name}}, {{address.city_name}}
+								</span>
+							</div>
+							<div class="ch-g1-3">
+								<span class="value">${{price}}</span>
+							</div>
+							{{#installments}}
+								<span class="value-share"><strong>{{installments.quantity}}</strong> cuotas de <strong>$ {{installments.amount}}</strong></span>
+							{{/installments}}
+							<div class="clearfix"></div>
+						</div>
+					</li>
+					{{/results}}
+				</div>
+			</div>
+			<div class="footer" >
+				<ul>
+					<li>
+						<i class="ch-icon-map-marker"></i>
+						Ubicaci&#243;n
+					</li>
+					<li onclick="javascript:login()">
+						<i class="ch-icon-star-empty"></i>
+						Favoritos
+					</li>
+					<li>
+						<i class="ch-icon-info-sign"></i>
+						Informaci&#243;n
+					</li>
+				</ul>
+			</div>
+			
+	        </div>
+		<div class="page" id="productDetails" data-page="productDetails" data-role="page">
+			<div class="product-list">
+				<div class="header simple">
+					<div class="ch-icon-chevron-left back-list"></div>
+					<div class="product-info">
+					</div>
+				</div>
+				<div class="content type-2">
+					<div id="message"></div>
+					<div class="item-details">
+				
+					</div>
+				</div>
+					
+				<div class="footer" >
+					<ul>
+						<li>
+							<i class="ch-icon-map-marker"></i>
+							Ubicaci&#243;n
+						</li>
+						<li onclick="javascript:login()">
+							<i class="ch-icon-star-empty"></i>
+							Favoritos
+						</li>
+						<li>
+							<i class="ch-icon-info-sign"></i>
+							Informaci&#243;n
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="tmp-title-product" style="display: none">
+				<h2>{{title}}</h2>
+				<h3>{{address.state_name}}, {{address.city_name}}</h3>
+			</div>
+			<div class="tmp-carousel" style="display: none">
+				{{#pictures}}
+					<li><img id="{{id}}" src="{{url}}"/></li>
+				{{/pictures}}
+			</div>
+			<div class="tmp-details" style="display: none">
+				<div class="ch-box ch-carousel">
+					<div class="ch-carousel-prev" role="button"></div>
+					<div class="ch-carousel-next" role="button" ></div>
+					<ul class='slide'>
+						
+					</ul>
+				</div>
+				<h2>{{title}}</h2>
+				<h4>{{subtitle}}</h4>
+				<label class="price">$ {{price}}</label>
+				<label class="payments">
+					{{#installments}}
+						<span class="value-share"><strong>{{installments.quantity}}</strong> cuotas de <strong>$ {{installments.amount}}</strong></span>
+					{{/installments}}	
+				</label>
+				<label class="where">
+					<span>Art&iacute;culo {{condition}} - </span>
+					<span>{{sold_quantity}} vendidos - </span>
+					<span>{{seller_address.state.name}}</span>
+				</label>
+				<input class="ch-btn" type="button" value="Comprar" onClick="window.location.href='{{permalink}}'"/>
+			</div>
+	        </div>
+		<div class="page" id="login" data-page="login" data-role="page">
+			<div class="header simple">
+				<div class="ch-icon-chevron-left back-list"></div>
+				<div class="">
+				</div>
+			</div>
+			<div class="content type-2">
+				<div id="message"></div>
+				<div class="login">
+			
+				</div>
+			</div>
+				
+			<div class="footer" >
+				<ul>
+					<li>
+						<i class="ch-icon-map-marker"></i>
+						Ubicaci&#243;n
+					</li>
+					<li onclick="javascript:login()">
+						<i class="ch-icon-star-empty"></i>
+						Favoritos
+					</li>
+					<li>
+						<i class="ch-icon-info-sign"></i>
+						Informaci&#243;n
+					</li>
+				</ul>
+			</div>
+	        </div>
+		<div class="page" id="stateSelect" data-page="stateSelect" data-role="page">
+			<div class="header simple">
+				<div class="ch-icon-chevron-left back-list"></div>
+				<div class="">
+				</div>
+			</div>
+			<div class="content type-2">
+				<div id="message"></div>
+				<div class="states-list">
+					
+				</div>
+				<div class="tmp-states" style="display: none">
+					<select>
+						{{#states}}
+							<option value="<zx">{{name}}</option>
+						{{/states}}
+					</select>
+				
+				</div>
+			</div>
+				
+			<div class="footer" >
+				<ul>
+					<li>
+						<i class="ch-icon-map-marker"></i>
+						Ubicaci&#243;n
+					</li>
+					<li onclick="javascript:login()">
+						<i class="ch-icon-star-empty"></i>
+						Favoritos
+					</li>
+					<li>
+						<i class="ch-icon-info-sign"></i>
+						Informaci&#243;n
+					</li>
+				</ul>
+			</div>
+        </div>
+        <script type="text/javascript" src="js/cordova-2.7.0.js"></script>
+        <script type="text/javascript" src="js/zepto.min.js"></script>
+        <script type="text/javascript" src="js/mercadolibre-1.0.4.js"></script>
+        <script type="text/javascript" src="js/init.js"></script>
+        <script type="text/javascript" src="js/chico-mobile-min-0.6.js"></script>
+        <script type="text/javascript" src="js/mustache.js"></script>
         <script type="text/javascript">
             app.initialize();
         </script>
