@@ -2,6 +2,7 @@ body{
     padding: 0px;
     min-width: auto;
     max-width: 100%;
+	margin: 0px;
 }
 sup{
     vertical-align: text-top;
@@ -44,14 +45,14 @@ width: 100%;
     text-align: center;
     width: 75%;
 }
-.home input[type="search"] {
+.home input[type="text"] {
     margin: 22px 0;
     width: 82%;
     padding: 8px 34px 8px 10px;
     -webkit-box-shadow: 0px 5px 10px 0px rgba(20, 20, 20, 0.2);
     box-shadow: 0px 5px 10px 0px rgba(20, 20, 20, 0.2);
 }
-.home input[type="search"]:focus {
+.home input[type="text"]:focus {
 	opacity: 1;
 }
 .home .search-box {
@@ -61,6 +62,8 @@ width: 100%;
     vertical-align: top;
     position: relative;
     padding: 0px;
+}
+.search-box .labelSearch{
 }
 .home .ch-btn,
 .home .ch-btn:focus,
