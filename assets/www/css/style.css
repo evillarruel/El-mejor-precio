@@ -3,6 +3,7 @@ body{
     min-width: auto;
     max-width: 100%;
 	margin: 0px;
+	font-family: Arial, Helvetica, sans-serif;
 }
 sup{
     vertical-align: text-top;
@@ -15,6 +16,11 @@ sup{
     background: url(../images/bg-home.png) repeat,-webkit-linear-gradient(top,  #a00000 1%,#dd0000 25%,#dd0000 75%,#a00000 100%); /* Chrome10+,Safari5.1+ */
     background: url(../images/bg-home.png) repeat,-o-linear-gradient(top,  #a00000 1%,#dd0000 25%,#dd0000 75%,#a00000 100%); /* Opera 11.10+ */
     background: url(../images/bg-home.png) repeat,linear-gradient(to bottom,  #a00000 1%,#dd0000 25%,#dd0000 75%,#a00000 100%); /* W3C */
+}
+ul{
+list-style: none;
+padding: 0px;
+margin-top: 4px;
 }
 .ch-loading-wrap{
     z-index: 200;
@@ -36,6 +42,7 @@ width: 100%;
     text-align: center;
     background-repeat: repeat-x;
     padding-bottom: 16px;
+	padding-top: 32px;
 }
 .home h2 {
     font-size: 14px;
@@ -48,7 +55,7 @@ width: 100%;
 .home input[type="text"] {
     margin: 22px 0;
     width: 82%;
-    padding: 8px 34px 8px 10px;
+    padding: 10px 34px 9px 10px;
     -webkit-box-shadow: 0px 5px 10px 0px rgba(20, 20, 20, 0.2);
     box-shadow: 0px 5px 10px 0px rgba(20, 20, 20, 0.2);
 }
@@ -56,20 +63,24 @@ width: 100%;
 	opacity: 1;
 }
 .home .search-box {
-    margin: 3%;
-    width: 94%;
+    margin: 0px;
+    width: 100%;
     text-align: center;
     vertical-align: top;
     position: relative;
     padding: 0px;
 }
 .search-box .labelSearch{
+	font-size: 16px;
+	border: 1px solid #CDCDCD;
 }
 .home .ch-btn,
 .home .ch-btn:focus,
 .home .ch-btn:visited{
     margin-top: 22px;
     width: 250px;
+	padding: 8px 23px;
+	border-radius: 4px;
 }
 .ch-btn-big,
 .ch-btn-big:focus {
@@ -116,7 +127,7 @@ width: 100%;
 .header .filter{
     width: 100%;
     background: #a80000;
-    padding: 7px;
+    padding: 5px;
     margin-left: -10px;
     margin-right: -10px;
     padding-left: 10px;
@@ -134,12 +145,13 @@ width: 100%;
     padding-right: 20px;
     color: #dca2a2;
     vertical-align: top;
+	font-size: 1em;
+	padding: 5px;
+	padding-left: 14px;
+	padding-right: 14px;
 }
 .header .filter input.active{
     color: #fff;
-}
-.header .go-home{
-    margin-left: -5px;
 }
 .btnback {
     display: block;
@@ -204,17 +216,18 @@ width: 100%;
     line-height: 16px;
 }
 .list-product .name{
-    font-size: 12px;
+    font-size: 0.8em;
     font-weight: bold;
     color: #333333;
     margin-top: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
 }
 .list-product img{
     float: left;
     margin: 0px;
-    margin-right: 5px;
+    margin-right: 8px;
     border: solid 1px #eeeeee;
+	width: 22%;
 }
 .list-favorite td{
     background-image: url("../images/ico-next-favorite.png");
@@ -243,7 +256,7 @@ width: 100%;
 }
 .value {
     color: #e31e25;
-    font-size: 20px;
+    font-size: 1.4em;
     font-weight: bold;
     text-align: right;
     margin-bottom: 2px;
@@ -256,8 +269,8 @@ width: 100%;
     width: 100%;
     clear: both;
     position: absolute;
-    bottom: 20px;
-    left: -5px;
+    bottom: 36px;
+    left: -6px;
 }
 .payments .value-share {
 display: block;
@@ -508,7 +521,7 @@ user-select: none;
 .footer li{
     display: block;
     float: left;
-    height: 60px;
+    height: 56px;
     width: 33%;
     text-align: center;
     cursor: pointer;
@@ -665,7 +678,7 @@ border-radius:2px;
     height: 26px;
     border: 0px solid #d4d4d4;
     position: absolute;
-    right: 0px;
+    right: 1%;
     top: 16px;
     cursor: pointer;
 }
@@ -673,9 +686,12 @@ border-radius:2px;
     background-position: 7px -41px;
     border-left: 1px solid #D4D4D4;
     height: 26px;
-    right: 1%;
-    top: 5px;
+    right: 5%;
+    top: 29px;
     width: 35px;
+}
+#index-form{
+position:relative;
 }
 /* modal */
 
@@ -703,16 +719,41 @@ border-radius:2px;
 .search-home {
     font-size: 16px;
     position: absolute;
-    right: 40px;
-    top: 13px;
-    left: 85px;
+	width: 70%;
+	right: 15%;
+	left: 20%;
+	top: 14px;
+}
+.interLabelSearch{
+	font-size: 16px;
+	border-radius: 4px;
+	display: block;
+	border: 1px solid red;
+	background: transparent;
+	height: 34px;
+	padding-left: 5px;
+	padding-right: 5px;
+	width: 100%;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	border: 1px solid #CDCDCD;
+	background: #fff;
 }
 .ico-search-home{
     position: absolute;
-    right: 5px;
-    top: 9px;
-    width: 22px;
     cursor: pointer;
+	right: 5px;
+	width: 26px;
+	cursor: pointer;
+	height: 26px;
+	top: 5px;
+}
+.ch-icon-search{
+	background-image: url("../images/sprite.png");
+    background-position: 4px -64px;
+    background-color: transparent;
+    background-repeat: no-repeat;
 }
 .ch-icon-search.ico-search-home:hover{
 	border: 0px solid red;

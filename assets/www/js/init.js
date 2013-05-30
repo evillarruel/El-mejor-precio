@@ -183,7 +183,7 @@ $('.btn-geolocation').click(function(){
 	var statesData = $('.tmp-states').html();
 	$('.states-list').html(Mustache.render( statesData, obj));
 	var optionSelect = '.states-list #'+nearestState.id;
-	$(optionSelect).attr("selected","selected");
+	$(optionSelect).attr("selected");
 	$('.location-set .state').html(nearestState.name);
 });
 $('.close-modal').click(function() {
