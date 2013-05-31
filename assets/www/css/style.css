@@ -705,7 +705,6 @@ margin-bottom: 0px;
 	background: #dfdfdf;
 	padding:10px;
 	position: relative;
-	border-bottom: 1px solid #E6E6E6;
 }
 .back-grey .mail-user{
 	font-size: 13px;
@@ -957,18 +956,35 @@ text-align: right;
 }
 
 .back-grey{
-    background: #e8e8e8;
+	background-color:#e8e8e8;
+	background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#e8e8e8),color-stop(100%,#ffffff));
+	background-image:-webkit-linear-gradient(#e8e8e8,#ffffff);
+	background-image:-moz-linear-gradient(#e8e8e8,#ffffff);
+	background-image:-o-linear-gradient(#e8e8e8,#ffffff);
+	background-image:linear-gradient(#e8e8e8,#ffffff);
 	height: 99%;
 	padding: 0px;
 	margin: 0px;
 	text-align: center;
 }
-.text-description{
-	font-weight: bold;
+.title-details{
 	text-align: center;
-	color: #282828;
 	margin-top: 34px;
+	text-shadow: 0px -1px #797979;
+	color: #919191;
+	font-size: 20px;
+	
+}
+.text-details{
+	text-align: center;
+	color: #c8c8c8;
+	margin-top: 34px;
+	text-shadow: 0px -1px #9f9f9f;
+	font-size: 16px;
+	width: 65%;
+	margin: auto;
 }
 .back-grey img{
-	margin-top: 10%;
+	margin-top: 17%;
+	margin-bottom: 5%;
 }
