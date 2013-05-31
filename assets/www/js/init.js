@@ -19,6 +19,9 @@ var userPoint = {};
 var nearestState;
 var states = new Array();
 var condition = 'new';
+//stateId = nearestState.id;
+stateId = "AR-C";
+
 function uiPageSet() {
 	wHeight = $('.page').height()
 	$('.page').height(wHeight);
@@ -37,7 +40,7 @@ function login() {
 		debugger;
 		MELI.get('users/me',null,function(data){
 		});
-		alert(MELI.getToken());
+
 	});
 };
 function get_location() {
@@ -182,7 +185,7 @@ $('.btn-geolocation').click(function(){
 	obj.states = states;
 	var statesData = $('.tmp-states').html();
 	$('.states-list').html(Mustache.render( statesData, obj));
-	var optionSelect = '.states-list #'+nearestState.id;
+	var optionSelect = '.states-list #'+stateId;
 	$(optionSelect).attr("selected");
 	$('.location-set .state').html(nearestState.name);
 });
@@ -192,6 +195,7 @@ $('.close-modal').click(function() {
 $('.states-list option').click(function() {
 	alert($(this).attr('id'));
 });
+
 function searchQuery() {
 	var standardDeviation = getPrices();
 	lowestPrice = Math.abs(standardDeviation.media-standardDeviation.deviation);
@@ -213,7 +217,7 @@ function msg() {
 }
 function getPrices() {
 	var retVal = {};
-	doGet(MELI_URL+'/sites/MLA/search?q='+ query +'&state='+ nearestState.id +'&condition='+condition,
+	doGet(MELI_URL+'/sites/MLA/search?q='+ query +'&state='+ stateId +'&condition='+condition,
 		function(data) {
 			var n = data.results.length;
 			var add = 0;
@@ -240,7 +244,7 @@ function getPrices() {
 	return retVal;
 }
 function loadSearchQuery(renderSet) {
-	doGet(MELI_URL+'/sites/MLA/search?q='+query+'&state='+nearestState.id+'&condition='+condition+'&sort=price_asc&price='+lowestPrice+'-'+maximumPrice+'&offset='+offset+'&limit='+limit, renderSet);
+	doGet(MELI_URL+'/sites/MLA/search?q='+query+'&state='+stateId+'&condition='+condition+'&sort=price_asc&price='+lowestPrice+'-'+maximumPrice+'&offset='+offset+'&limit='+limit, renderSet);
 }
 function renderResultsSet(data){
 	addItemsToHash(data.results);
