@@ -7,6 +7,7 @@ $(document).ready(function(){
 	this.el.on('click', '.add-location-btn', this.addLocation);
 	
 });
+/*
 this.addLocation = function(event) {
     event.preventDefault();
     console.log('addLocation');
@@ -19,6 +20,7 @@ this.addLocation = function(event) {
         });
     return false;
 };
+*/
 var MELI_URL = "https://api.mercadolibre.com";
 var query;
 var queryResults;
@@ -29,11 +31,10 @@ var maximumPrice;
 var distance;
 var itemsShown = {};
 var userPoint = {};
-var nearestState;
 var states = new Array();
 var condition = 'new';
-//stateId = nearestState.id;
-stateId = "AR-C";
+//stateId = "AR-C";
+var filterState;
 
 function uiPageSet() {
 	wHeight = $('.page').height()
@@ -70,16 +71,21 @@ function get_location() {
 	navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
 }
 function geoSuccess(point) {
-	//userPoint.latitude = point.coords.latitude;
-	//userPoint.longitude = point.coords.longitude;
+	userPoint.latitude = point.coords.latitude;
+	userPoint.longitude = point.coords.longitude;
 	/*eliminar*/
-	userPoint.latitude = '-31.3526556'; 
-	userPoint.longitude = '-64.2460254';
+	//userPoint.latitude = '-31.3526556'; 
+	//userPoint.longitude = '-64.2460254';
 	
 	loadCountries();
 }
 function geoError() {
-	alert("No podemos encontrar tu ubicación");
+	navigator.notification.alert(
+		'Intenta activar tu GPRS o conectarse a una red movil.',      // (message)
+		alertDismissed,         										// (alertCallback)
+		'No podemos encontrar tu ubicaci\u00f3n',            							// (title)
+		'Ok'                											// (buttonName)
+	);
 }
 function doGet(pathUrl, callback, asynch) {
 	if (!asynch) {
@@ -92,7 +98,12 @@ function doGet(pathUrl, callback, asynch) {
 		async: asynch,
 		success:callback,
 		error: function(xhr, type){
-		  alert('No tiene coneccion a una red!')
+			navigator.notification.alert(
+				'Intenta activar tu conexi\u00f3n a una red movil o WiFi.',      // (message)
+				alertDismissed,         										// (alertCallback)
+				'No tiene conexi\u00f3n a una red!',            							// (title)
+				'Ok'                											// (buttonName)
+			);
 		}
 	})
 };
@@ -101,6 +112,7 @@ function categoriesList() {
 }
 function loadCountries() {
 	doGet('./statesJson.txt', locationSet);
+	loadDropStates();
 }
 
 function locationSet(data) {
@@ -119,6 +131,8 @@ function locationSet(data) {
 			if (nearestCity.distance > cityAux.distance) {
 				nearestCity = cityAux;
 				nearestState = data[i];
+				stateId = nearestState.id;
+				filterState ='&state='+stateId;
 				break;
 			}        
 		}
@@ -192,11 +206,9 @@ function alertDismissed() {
 
 
 $(".search-btn").click(function () {
-	loadDropStates();
-	
 	smallLoadin(1);
 	search()
-	/* notificacion campo vasio
+	/* notificacion campo vacio
 	navigator.notification.alert(
 		'Ingresa alg\u00fan producto para poder realizar la b\u00fasqueda.',      // (message)
 		alertDismissed,         										// (alertCallback)
@@ -207,7 +219,7 @@ $(".search-btn").click(function () {
 })
 $(".labelSearch").enterKey(function () {
 	smallLoadin(1);
-	search()
+	setTimeout(search(),100);
 });
 $('.inter-search-btn').enterKey(function () {
 	smallLoadin(1);
@@ -245,9 +257,12 @@ function loadDropStates(){
 	var statesData = $('.tmp-states').html();
 	$('.btn-geolocation').html(Mustache.render( statesData, obj));
 	var optionSelect = '.btn-geolocation #'+stateId;
-	//$(optionSelect).attr("selected");
-	//$('.location-set .state').html(nearestState.name);
+	$(optionSelect).attr('selected','selected');
 };
+$(".btn-geolocation").on('change', function(e){
+	$(".btn-geolocation option").attr('selected','');
+	$(".btn-geolocation option:selected").attr('selected','selected');
+})
 $('.close-modal').click(function() {
 	$(this).parent().hide();
 })
@@ -278,7 +293,7 @@ function msg() {
 }
 function getPrices() {
 	var retVal = {};
-	doGet(MELI_URL+'/sites/MLA/search?q='+ query +'&state='+ stateId +'&condition='+condition,
+	doGet(MELI_URL+'/sites/MLA/search?q='+ query +filterState+'&condition='+condition,
 		function(data) {
 			var n = data.results.length;
 			var add = 0;
@@ -305,7 +320,7 @@ function getPrices() {
 	return retVal;
 }
 function loadSearchQuery(renderSet) {
-	doGet(MELI_URL+'/sites/MLA/search?q='+query+'&state='+stateId+'&condition='+condition+'&sort=price_asc&price='+lowestPrice+'-'+maximumPrice+'&offset='+offset+'&limit='+limit, renderSet);
+	doGet(MELI_URL+'/sites/MLA/search?q='+query+filterState+'&condition='+condition+'&sort=price_asc&price='+lowestPrice+'-'+maximumPrice+'&offset='+offset+'&limit='+limit, renderSet);
 }
 function renderResultsSet(data){
 	addItemsToHash(data.results);
@@ -418,6 +433,9 @@ function loadItems() {
 	offset=offset+5;
 	loadSearchQuery(renderAddResultsSet);
 }
+
+
+
 
 
 
