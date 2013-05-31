@@ -11,19 +11,12 @@
         <title>El mejor precio</title>
     </head>
     <body>
-        <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
-            </div>
-        </div>
         <div class="ch-loading-wrap">
 			<p class="ch-loading-text"></p>
 		</div>
 		<div class="ch-msg-wrap">
 			<span class="icon"></span>
-			<p class="ch-msg-text">No encontramos restultado para tu busqueda.</p>
+			<p class="ch-msg-text">No encontramos resultado para tu busqueda.</p>
 		</div>
 		<div class="page active" id="index" data-page="index" data-role="page">
 			<div class="home">
@@ -33,13 +26,22 @@
 					<img src="images/frase-home.png" alt="El Mejor Precio"> 
 				</div>
 				<div class="search-box">
-					<form id="index-form" onsubmit="javascript:search();return false;">
-						<input placeholder="Producto..." required="required" class="ch-points-ltrt labelSearch" id="labelSearch" type="text" />
+					<div class="label-search">
+						<input placeholder="Producto..." required="required" class="ch-points-ltrt labelSearch" type="text" />
 						<span class="ch-loading-small"></span>
-						<div class="btn-geolocation"></div>
-						<br>
-						<input class="ch-btn ch-btn-big search-btn" type="submit" value="Buscar" />
-					</form>	
+						<select class="btn-geolocation" name="" id="" data-native-menu="true" >
+	                         <option value="">Selecciona la provincia como filtro</option>
+	                     </select>
+	                     <div class="tmp-states" style="display: none">
+		                     	 <option value="">Selecciona la provincia como filtro</option>
+								{{#states}}
+									<option id="{{id}}" value="{{name}}">{{name}}</option>
+								{{/states}}
+						</div>
+					</div>
+					<input class="ch-btn ch-btn-big search-btn" type="button" value="Buscar" />
+
+		
 				</div>
 				<div id="message"></div>
 			</div>
@@ -48,13 +50,11 @@
 			
 			<div class="header">
 				<img class="go-home" src="images/logo-small.png">
-				<div class="search-home">
-					<form id="index-form" onsubmit="javascript:search();return false;">
-						<input id="search" class="ch-points-ltrt interLabelSearch" type="search" placeholder="Producto..." size="35" required="required" name="email">
-						<a class="ch-icon-search ico-search-home inter-search-btn"></a>
-					</form>	
-				</div>
-				<button class="YOUR_SELECTOR_Modal_invisible btn-geolocation"></button>
+				<div class="search-inter">
+					<input class="ch-points-ltrt interLabelSearch" type="text" placeholder="Producto...">
+					<a class="ch-icon-search ico-search-home inter-search-btn"></a>
+				</div>	
+				<!--  button class="btn-geolocation"></button-->
 				<div class="filter">
 					<input class="active new" type="button" value="Nuevos">
 					<input class="used" type="button" value="Usados">
@@ -207,15 +207,7 @@
 			<div class="states-list">
 				
 			</div>
-			<div class="tmp-states" style="display: none">
-				<select>
-					<option value="{{id}}">{{name}}</option>
-					{{#states}}
-						<option id="{{id}}" value="{{name}}">{{name}}</option>
-					{{/states}}
-				</select>
 			
-			</div>
 		</div>
         <script type="text/javascript" src="js/cordova-2.7.0.js"></script>
         <script type="text/javascript" src="js/zepto.min.js"></script>

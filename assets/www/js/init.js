@@ -3,9 +3,22 @@ $(document).ready(function(){
 		get_location();
 		uiPageSet();
 	})
-	//$(document.body).transition('options', {defaultPageTransition : 'flip', domCache : true});
+	//$(document.body).transition('options', {defaultPageTransition : 'flip', domCache : true})
+	this.el.on('click', '.add-location-btn', this.addLocation);
 	
 });
+this.addLocation = function(event) {
+    event.preventDefault();
+    console.log('addLocation');
+    navigator.geolocation.getCurrentPosition(
+        function(position) {
+            $('.location', this.el).html(position.coords.latitude + ',' + position.coords.longitude);
+        },
+        function() {
+            alert('Error getting location');
+        });
+    return false;
+};
 var MELI_URL = "https://api.mercadolibre.com";
 var query;
 var queryResults;
@@ -28,6 +41,16 @@ function uiPageSet() {
 	hHeight = $('.home').height();
 	$('.home').css('padding-top', (((wHeight-hHeight)/2)/2))
 	$('.ch-loading-wrap').hide();
+}
+$.fn.enterKey = function (fnc) {
+    return this.each(function () {
+        $(this).keypress(function (ev) {
+            var keycode = (ev.keyCode ? ev.keyCode : ev.which);
+            if (keycode == '13') {
+                fnc.call(this, ev);
+            }
+        })
+    })
 }
 
 function login() {
@@ -112,6 +135,7 @@ function getNearestCity(states) {
 	}
 	return nearestCity;
 }
+
 function countriesSet(data) {
 	var statesML = data.states;
 	var states = new Array(statesML.length);
@@ -161,34 +185,69 @@ function citieDataSet(data) {
 function getModule(city, userPoint) {
 	return	Math.sqrt(Math.pow((userPoint.latitude-city.latitude),2) + Math.pow((userPoint.longitude-city.longitude),2));
 }
-function search() {
+
+function alertDismissed() {
+    // action
+}
+
+
+$(".search-btn").click(function () {
+	loadDropStates();
+	
 	smallLoadin(1);
+	search()
+	/* notificacion campo vasio
+	navigator.notification.alert(
+		'Ingresa alg\u00fan producto para poder realizar la b\u00fasqueda.',      // (message)
+		alertDismissed,         										// (alertCallback)
+		'Int\u00e9ntalo nuevamente!',            							// (title)
+		'Ok'                											// (buttonName)
+	);
+	*/
+})
+$(".labelSearch").enterKey(function () {
+	smallLoadin(1);
+	search()
+});
+$('.inter-search-btn').enterKey(function () {
+	smallLoadin(1);
+	query = $('.interLabelSearch').val().replace(' ','%20');
+	searchQuery();
+});
+$('.interLabelSearch').enterKey(function () {
+	query = $('.interLabelSearch').val().replace(' ','%20');
+	searchQuery();
+	cloneDropStates()
+});
+function cloneDropStates() {
+	var dropStates = $('.btn-geolocation').html();
+	$('.header').append(dropStates);
+}
+function search() {
 	query = $('.labelSearch').val().replace(' ','%20');
 	var control = searchQuery();
 	if (control != false) {
 		setTimeout('getPage(index , productList)',1000);
 	}else{
 		msg();
+		smallLoadin(0);
+		$('.labelSearch').val("");
 	}
 }
 function getPage(current, nextPage) {
 	$(current).removeClass('active');
 	$(nextPage).addClass('active');
 }
-$('.inter-search-btn').click(function(){
-	query = $('.interLabelSearch').val().replace(' ','%20');
-	searchQuery();
-});
-$('.btn-geolocation').click(function(){
-	$('.location-set').show();
+
+function loadDropStates(){
 	var obj = {};
 	obj.states = states;
 	var statesData = $('.tmp-states').html();
-	$('.states-list').html(Mustache.render( statesData, obj));
-	var optionSelect = '.states-list #'+stateId;
-	$(optionSelect).attr("selected");
-	$('.location-set .state').html(nearestState.name);
-});
+	$('.btn-geolocation').html(Mustache.render( statesData, obj));
+	var optionSelect = '.btn-geolocation #'+stateId;
+	//$(optionSelect).attr("selected");
+	//$('.location-set .state').html(nearestState.name);
+};
 $('.close-modal').click(function() {
 	$(this).parent().hide();
 })
@@ -210,9 +269,11 @@ function searchQuery() {
 	}
 }
 function msg() {
-	$('.ch-msg-wrap').animate({
-		opacity: 1
-	});
+	$('.ch-msg-wrap').show().animate({opacity: 1});
+	setTimeout(function() {
+		$('.ch-msg-wrap').animate({opacity: 0}).show();
+	},2000);
+	
 	
 }
 function getPrices() {
@@ -263,7 +324,6 @@ function renderAddResultsSet(data){
 	}else{
 		i = limit;
 		$('.products').after('<p class="ch-box-information">Oops! No tenemos mas productos relacionados con <b>"'+query.replace('%20',' ')+'"</b></p>');
-		$('.ch-box-information').delay(1000).hide();
 	}
 }
 function addItemsToHash(items) {
