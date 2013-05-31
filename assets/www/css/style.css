@@ -918,7 +918,7 @@ text-align: right;
 	top: 10px;
 	left: 10px;
 }
-.btn-favorite{
+.btn-myfavorite{
 	background-color:#efefef;
 	background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#efefef),color-stop(100%,#d0d0d0));
 	background-image:-webkit-linear-gradient(#efefef,#d0d0d0);
@@ -933,4 +933,12 @@ text-align: right;
 	font-size: 1em;
 	text-align: center;
 	margin-top: 14px;
+}
+.btn-myfavorite:hover{
+	background-color:#d0d0d0;
+	background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#d0d0d0),color-stop(100%,#efefef));
+	background-image:-webkit-linear-gradient(#d0d0d0,#efefef);
+	background-image:-moz-linear-gradient(#d0d0d0,#efefef);
+	background-image:-o-linear-gradient(#d0d0d0,#efefef);
+	background-image:linear-gradient(#d0d0d0,#efefef);
 }
