@@ -660,21 +660,35 @@ user-select: none;
 	background-image: url("../images/ico-information-hover.png");
 }
 /* pagination */
+.products{
+margin-bottom: 0px;
+}
 .ch-pagination{
     margin: 0px;
 	text-align: center;
+	background: #DFDFDF;
+	border-top: 1px solid #E6E6E6;
+}
+.ch-pagination li{
+	padding-top: 18px;
+	padding-bottom: 10px;
+	height: 35px;
+
 }
 .ch-pagination li a{
-	color: #333333;
-	border-radius: 3px 3px 3px 3px;
+	color: #979797;
     padding: 5px 8px;
 	text-decoration: none;
-	font-size:0.7em;
-}
-.ch-pagination li a:hover{
-	background: #E81F25;
-	border: 1px solid #E81F25;
-	color: #fff;
+	font-size:0.8em;
+	background-image: url("../images/see-more.png");
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: 156px 4px;
+	display: block;
+	width: 174px;
+	text-align: left;
+	margin: auto;
+	font-weight: bold;
 }
 .ch-pagination .ch-pagination-current a, .ch-pagination .ch-pagination-current a:hover{
 	color: #333333;
@@ -682,7 +696,6 @@ user-select: none;
 	background: #e1e1e1;
 }
 .ch-pagination a[type="prev"]:hover, .ch-pagination a[type="next"]:hover{
-	border: 1px solid #E81F25;
 }
 .ch-pagination li{
 	margin: 0 2px;
@@ -941,4 +954,21 @@ text-align: right;
 	background-image:-moz-linear-gradient(#d0d0d0,#efefef);
 	background-image:-o-linear-gradient(#d0d0d0,#efefef);
 	background-image:linear-gradient(#d0d0d0,#efefef);
+}
+
+.back-grey{
+    background: #e8e8e8;
+	height: 99%;
+	padding: 0px;
+	margin: 0px;
+	text-align: center;
+}
+.text-description{
+	font-weight: bold;
+	text-align: center;
+	color: #282828;
+	margin-top: 34px;
+}
+.back-grey img{
+	margin-top: 10%;
 }
