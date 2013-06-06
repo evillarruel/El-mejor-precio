@@ -208,18 +208,10 @@ function alertDismissed() {
 $(".search-btn").click(function () {
 	smallLoadin(1);
 	search()
-	/* notificacion campo vacio
-	navigator.notification.alert(
-		'Ingresa alg\u00fan producto para poder realizar la b\u00fasqueda.',      // (message)
-		alertDismissed,         										// (alertCallback)
-		'Int\u00e9ntalo nuevamente!',            							// (title)
-		'Ok'                											// (buttonName)
-	);
-	*/
 })
 $(".labelSearch").enterKey(function () {
-	smallLoadin(1);
-	setTimeout(search(),100);
+	setTimeout(smallLoadin(1),100);
+	search();
 });
 $('.inter-search-btn').enterKey(function () {
 	smallLoadin(1);
@@ -259,15 +251,12 @@ function loadDropStates(){
 	var optionSelect = '.btn-geolocation #'+stateId;
 	$(optionSelect).attr('selected','selected');
 };
-$(".btn-geolocation").on('change', function(e){
-	$(".btn-geolocation option").attr('selected','');
-	$(".btn-geolocation option:selected").attr('selected','selected');
-})
+$(".btn-geolocation").on('change', function(){
+	stateId = this.value;
+	filterState ='&state='+stateId;
+});
 $('.close-modal').click(function() {
 	$(this).parent().hide();
-})
-$('.states-list option').click(function() {
-	alert($(this).attr('id'));
 });
 
 function searchQuery() {
@@ -399,6 +388,35 @@ function carouselSet(index) {
 		}
 		
 	});	
+	
+	$('.ch-carousel').swipeRight(function(){
+		position = $('.ch-carousel ul').css('left').replace('px','');
+		if (position != (-limit)) {
+			var moveNext= (position*1)-(sliderWidth+paddingSlider);
+			$('.ch-carousel-prev').show();
+			$('.ch-carousel ul').animate({
+				left: (moveNext)+'px'
+			}, 500);	
+		}else{
+			$('.ch-carousel-next').hide();
+		}
+	});
+	$('.ch-carousel').swipeLeft(function(){
+		position = $('.ch-carousel ul').css('left').replace('px','');
+		if (position != '0') {
+			var movePrev= (position*1)+(sliderWidth+paddingSlider);
+			$('.ch-carousel-next').show();
+			$('.ch-carousel ul').animate({
+				left: movePrev+'px'
+			}, 500);	
+		}else{
+			$('.ch-carousel-prev').hide();
+		}
+		
+	});	
+	
+	
+	
 }
 $('.back-list').click(function(){
 	getPage(productDetails, productList);
