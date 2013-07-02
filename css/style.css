@@ -234,6 +234,8 @@ h3{
     padding: 10px;
     margin-top: 25px;
     width: 76%;
+    padding-left: 18px;
+    padding-right: 18px;
 }
 .ico-android{
     position: absolute;
