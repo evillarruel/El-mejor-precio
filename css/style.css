@@ -116,6 +116,7 @@ header{
 .code-QR{
     margin-top: 26px;
     margin-bottom: 26px;
+    position: relative;
 }
 .code-QR span{
     display: inline-block;
@@ -226,4 +227,23 @@ h3{
 .itms img{
     float: left;
     padding-right: 6px;
+}
+.box{
+    border: 2px solid #e2e2e2;
+    border-radius: 4px;
+    padding: 10px;
+    margin-top: 25px;
+    width: 76%;
+}
+.ico-android{
+    position: absolute;
+    top: 60px;
+    left: 140px;
+}
+.top-content .box span{
+    display: inline-block;
+    width: 85%;
+    padding-left: 10px;
+    vertical-align: top;
+    font-size: 14px;
 }
