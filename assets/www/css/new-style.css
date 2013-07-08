@@ -360,29 +360,72 @@ font-size: 100%;
     margin: 0;
     margin-left: 2%;
     margin-right: 2%;
+    margin-bottom: 2%;
     width: 96%;
     padding: 0;
 }
 .simple .recent-list ul li{
     list-style: none;
     width: 100%;
-    border-bottom: solid 0.1em #C7C7C7;
     font-size: 120%;
+    margin-top: 2%;
 }
-.simple .recent-list ul li a{
-    width: 100%;
+.simple .recent-list ul li a {
+    width: 96%;
     display: block;
     text-decoration: none;
     color: #1579FF;
-    padding-top: 2.2%;
-    padding-bottom: 2.2%;
+    padding: 2%;
+    background: #E5E5E5;
 }
-
+.simple .recent-list ul li a .date{
+    float: right;
+    font-size: .8em;
+    color: #000;
+    color: #7F7F7F;
+    background-color: #fff;
+    padding: .8%;
+    padding-left: 3%;
+    padding-right: 3%;
+    border-radius: 1em;
+}
+.simple .recent-list ul li a .location-label{
+    display: block;
+    font-size: .7em;
+    margin-top: 2%;
+    color: #7F7F7F;
+}
+.favorites-user-in {
+    background: #53a93f;
+    padding: 2%;
+    margin: 2%;
+    color: #ffffff;
+    padding-right: 8%;
+    position: relative;
+    display: none;
+}
+.favorites-user-in .refresh{
+    display: block;
+    position: absolute;
+    top: 20%;
+    right: 0%;
+    width: 6%;
+    height: 60%;
+    border: solid 0;
+    background: url(../images/icon-refresh.png);
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    padding: 0;
+    margin: 0;
+    margin-right: 2%;
+    background-position: center;
+}
 .favorites-form{
     background: #E5E5E5;
     padding: 2%;
     margin-top: 0.1em;
     border-bottom: solid 0.1em #C7C7C7;
+    display: none;
 }
 .favorites-form label{
     color: #7F7F7F;

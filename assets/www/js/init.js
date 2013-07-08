@@ -34,13 +34,18 @@ var parentPage = '#index';
 var states = new Array();
 var recentsQuerys = new Array();
 var itemFavirite = new Array();
+var logFavoriteEmail = {};
 var condition = 'new';
+var userId;
 //stateId = "AR-C";
 var filterState;
+
+logFavoriteEmail.setEmail = false;
 
 function uiPageSet() {
 	wrapperHeight = $(window).height()
 	$('.wrapper-page').height(wrapperHeight);
+	setLogFavotites();
 }
 $.fn.enterKey = function (fnc) {
     return this.each(function () {
@@ -60,9 +65,6 @@ function get_location() {
 function geoSuccess(point) {
 	userPoint.latitude = point.coords.latitude;
 	userPoint.longitude = point.coords.longitude;
-	/*eliminar*/
-	//userPoint.latitude = '-31.3526556'; 
-	//userPoint.longitude = '-64.2460254';
 	loadCountries();
 }
 function geoError() {
@@ -105,7 +107,6 @@ function locationSet(data) {
 	nearestState = data[0];
 	var nearestCity = data[0].cities[0];
 	nearestCity.distance = getModule(nearestCity, userPoint);
-	
 	for (var i=1; i < data.length; i++) {
 		var state = {};
 		state.name = data[i].name;
@@ -217,26 +218,92 @@ $('#productDetails .interLabelSearch').enterKey(function () {
 	getPage(productDetails, productList);
 	$('.ch-carousel .slide li img').animate({opacity:0},0)
 });
-
 $(".btn-location").click(function () {
+	parentPage = '#'+$('.page.active').attr('id');
 	$('.page').removeClass('active');
 	$('#setLocations').addClass('active')
 });
 $(".btn-information").click(function () {
+	parentPage = '#'+$('.page.active').attr('id');
 	$('.page').removeClass('active');
 	$('#appinfo').addClass('active')
 });
 $(".btn-favorite").click(function () {
+	parentPage = '#'+$('.page.active').attr('id');
+	$('.btn-myfavorite').animate({opacity:0},0);
+	$('.ch-carousel .slide li img').animate({opacity:0},0);
 	$('.page').removeClass('active');
 	$('#favorites').addClass('active');
 	$(".favorites-list ul").html('');
 	setFavorites();
 });
 $(".btn-recents").click(function () {
+	parentPage = '#'+$('.page.active').attr('id');
 	$('.page').removeClass('active');
 	$('#recentSerch').addClass('active')
 	loadRecentQuerys()
 });
+$(".email-favorites").enterKey(function () {
+	loadLogFavotites();
+});
+$(".refresh").click(function () {
+	resentLogFavotites()
+});
+function setLogFavotites() {
+	if ( localStorage.hasOwnProperty('logFavoriteEmail') == true) {
+		logFavoriteEmail = JSON.parse(localStorage.logFavoriteEmail);
+		userId = JSON.parse(localStorage.userId);
+		$('.favorites-user-in .id').html(logFavoriteEmail.email);
+		$('.favorites-user-in').show();
+	}else{
+		$('.favorites-form').show();
+	}
+}
+function loadLogFavotites(){
+	var email =  $('.email-favorites').val();
+	var filter=/^[A-Za-z][A-Za-z0-9_]*@[A-Za-z0-9_]+\.[A-Za-z0-9_.]+[A-za-z]$/;
+	if (filter.test(email)){
+		alert("La dirección de email " + email + " es correcta.");
+		logFavoriteEmail.setEmail = true;
+		logFavoriteEmail.email = email;
+		logFavoriteEmail.favorites = itemFavirite;
+		localStorage.logFavoriteEmail = JSON.stringify(logFavoriteEmail);
+		getDataDB();
+		$('.favorites-form').hide();
+		$('.favorites-user-in .id').html(logFavoriteEmail.email);
+		$('.favorites-user-in').show();
+	} else {
+		alert("La dirección de email es incorrecta.");
+	}
+}
+function resentLogFavotites () {
+	resetDB();
+	$('.favorites-user-in').html('Gracias!');
+	setTimeout(function(){$('.favorites-user-in').hide()},1200);
+}
+function resetDB () {
+	// body...
+}
+function getDataDB(){
+	var dataDB = new Array();
+	var objSetEmail = {};
+	var objEmail = {};
+	var objFavorites = {};
+	objSetEmail.name = 'setEmail';
+	objSetEmail.value = JSON.stringify(logFavoriteEmail.setEmail);
+	objEmail.name = 'email';
+	objEmail.value = logFavoriteEmail.email;
+	objFavorites.name = 'favorites';
+	objFavorites.value = JSON.stringify(logFavoriteEmail.favorites);
+	dataDB[0] = objSetEmail;
+	dataDB[1] = objEmail;
+	dataDB[2] = objFavorites;
+	$.post('http://localhost/emp-db/index.php/news/create', dataDB, function(response){
+		$('.data-hidden').html(response);
+		userId = $('.data-hidden .id').text();
+		localStorage.userId = userId;
+	})
+}
 function setFavorites () {
 	if ( localStorage.hasOwnProperty('itemFavirite') == true) {
 		itemFavirite = JSON.parse(localStorage.itemFavirite);
@@ -352,8 +419,14 @@ function recentLocalStorage() {
 	}else{
 		i = 0;
 	}
+	date = new Date();
+	day = date.getDate();
+	month = date.getMonth();
+	year = date.getFullYear();
 	var obj = {};
 	obj.query = query;
+	obj.locationName = nearestState.name;
+	obj.date = day+'/'+month+'/'+year;
 	recentsQuerys[i]= obj;
 	localStorage.recentsQuerys = JSON.stringify(recentsQuerys);
 	var querys = JSON.parse(localStorage.recentsQuerys);
@@ -393,6 +466,7 @@ function removeLocalStorage() {
 	localStorage.removeItem('recentsQuerys');
 }
 function rewriteLocalStorageFavorites(id) {
+	$('#'+id+' .btn-myfavorite').animate({opacity:0}, 200);
 	if ( localStorage.hasOwnProperty('itemFavirite') == true) {
 		var i = JSON.parse(localStorage.itemFavirite).length;
 		itemFavirite = JSON.parse(localStorage.itemFavirite);
@@ -459,8 +533,8 @@ function renderAddResultsSet(data){
 		$(".products li").show();
 	}else{
 		i = limit;
-		$('.list-result-alert b').html(query);
-		$('.list-result-alert').show().animate({opacity:1}, 200);
+		$('#productList .list-result-alert b').html(query);
+		$('#productList .list-result-alert').show().animate({opacity:1}, 200);
 		$('.load-more').hide();
 	}
 }
@@ -552,26 +626,16 @@ function carouselSet(index) {
 			$('.ch-carousel-prev').hide();
 		}
 		
-	});	
-	
-	
-	
+	});
 }
-$('#productList .icon-back').click(function(){
-	getPage(productList, index);
+$('.icon-back').click(function(){
 	$('#index .loading').hide();
-});
-
-$('#productDetails .icon-back').click(function(){
 	$('.page').removeClass('active');
 	$(parentPage).addClass('active')
-	$('.ch-carousel .slide li img').animate({opacity:0},0)
+	parentPage = '#index';
 });
-
-$('.page.simple .icon-back').click(function(){
-	$('.page').removeClass('active');
-	$('#index').addClass('active')
-	$('#index .loading').hide();
+$('#productDetails .icon-back').click(function(){
+	$('.ch-carousel .slide li img').animate({opacity:0},0)
 });
 $('.used').click(function(){
 	condition = 'used';
