@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/new-style.css" />
+        <link rel="stylesheet" type="text/css" href="css/mesh-min-2.1.css" />
+        <title>El mejor precio</title> 
+    </head>
+    <body>
+    	<div class="wrapper-page">
+
+			<div class="page active" id="index" data-page="index" data-role="page">
+				<div class="home">
+					<div class="logo-home">
+						<img src="images/logo.png" class="logo" alt="El Mejor Precio">
+					</div>
+					<div class="search-box">
+						<div class="label-search">
+							<input placeholder="Producto..." required="required" class="labelSearch" type="text" />
+							<img class="loading" src="images/loading.gif">
+						</div>
+						<div class="location">
+							<img src="images/icon-location-home.png" alt="location">
+							<span>
+							en 
+							</span>
+							<span class="state"> 
+							</span>
+						</div>
+					</div>
+					<div id="message"></div>
+				</div>
+			</div>
+			<div class="page" id="productList" data-page="productList" data-role="page">
+				<div class="header">
+					<div class="top">
+						<button  class="icon-back" type="button">
+						</button>
+						<label>
+							El mejor precio
+						</label>
+						<button  class="icon-filter" type="button">
+						</button>
+					</div>
+					<div class="search-inter">
+						<input class="interLabelSearch" type="text" placeholder="Producto...">
+						<img class="loading" src="images/loading.gif">
+					</div>	
+				</div>
+				<div class="content type-1">
+					<div id="message"></div>
+					<ul class="products">
+						
+					</ul>
+					<p class="list-result-alert">Oops! No tenemos mas productos relacionados con <b></b></p>
+					<div class="load-more" onclick="javascript:loadItems()">
+ 						Cargar más resultados
+					</div>
+					<div class="tmp-item" style="display: none">
+						{{#results}}
+						<li id="{{id}}" class="list-product" style="display: none">
+							<div class="wrap-item" onclick="viewItem(this)">
+								<div class="g2-3">
+									<div class="thumbnail">
+										<img src="{{thumbnail}}" >
+									</div>
+									<div class="name">
+										<h3>{{title}}</h3>
+										<span class="location">
+											{{address.state_name}}, {{address.city_name}}
+										</span>
+									</div>
+									<div class="clearfix"></div>
+								</div>
+								<div class="g1-3">
+									<span class="value">${{price}}</span>
+								</div>
+								<div class="clearfix"></div>
+							</div>
+						</li>
+						{{/results}}
+					</div>
+				</div>
+
+		    </div>
+			<div class="page" id="productDetails" data-page="productDetails" data-role="page">
+				<div class="header">
+					<div class="top">
+						<button  class="icon-back" type="button">
+						</button>
+						<label>
+							El mejor precio
+						</label>
+						<button  class="icon-filter" type="button">
+						</button>
+					</div>
+					<div class="search-inter">
+						<input class="interLabelSearch" type="text" placeholder="Producto...">
+						<img class="loading" src="images/loading.gif">
+					</div>	
+				</div>
+				<div class="product-list content type-1">
+					<div id="message"></div>
+					<div class="item-details">
+				
+					</div>
+				</div>
+				<div class="tmp-carousel" style="display: none">
+					{{#pictures}}
+						<li><img id="{{id}}" src="{{url}}"/></li>
+					{{/pictures}}
+				</div>
+				<div class="tmp-details" style="display: none">
+					<div class="ch-box ch-carousel">
+						<div class="ch-carousel-prev" role="button"></div>
+						<div class="ch-carousel-next" role="button" ></div>
+						<div class="wrapper-slider">
+							<ul class='slide'>
+							</ul>
+						</div>
+					</div>
+					<div class="data-details" id="{{id}}">
+						<h2>{{title}}</h2>
+						<h4>{{subtitle}}</h4>
+						<label class="where">
+							<span>Art&iacute;culo {{condition}} - </span>
+							<span>{{sold_quantity}} vendidos - </span>
+							<span>{{seller_address.state.name}}</span>
+						</label>
+						<div class="clearfix"></div>
+						<label class="price">$ {{price}}</label>
+						<label class="payments">
+							{{#installments}}
+								<span class="value-share"><strong>{{installments.quantity}}</strong> cuotas de <strong>$ {{installments.amount}}</strong></span>
+							{{/installments}}	
+						</label>
+						<div class="clearfix"></div>
+						<div class="btn-myfavorite" onclick="rewriteLocalStorageFavorites('{{id}}')"> <span></span><label>Marcar como favorito</label></div>
+
+						<button  class="btn-buy" type="button" onClick="window.location.href='{{permalink}}'"/>
+							Comprar
+						</button>
+					</div>
+				</div>
+		    </div>
+
+		    <!-- Favorites -->
+		    <div class="page simple" id="favorites" data-page="favorites" data-role="page">
+				<div class="header">
+					<div class="top">
+						<button  class="icon-back" type="button">
+						</button>
+						<label>
+							El mejor precio
+						</label>
+					</div>
+				</div>
+				<div class="content">
+					<div class="favorites-user-in">
+						<label style="color: #fff; font-size: 1.1em;">
+							Actualiza para recibir los mejores precios de tus favoritos
+							en tu email: <span class="id"></span>.
+						</label>
+						<button class="refresh"></button>
+					</div>
+					<div class="favorites-form">
+						<label>
+							Completa con tu e-mail el siguiente campo si quieres recibir actualizaciones de lo que estas buscando. 
+						</label>
+						<input type="email" class="email-favorites" placeholder="Tu e-mail" required/>
+					</div>
+					<div class="favorites-list">
+						<ul>
+							
+						</ul>
+						<p class="list-result-alert">Oops! No tenes ninguna busqueda favoriata.</p>
+					</div>
+					<div class="tmp-favorites-item" style="display: none">
+						{{#items}}
+						<li id="{{id}}" class="favorite">
+							<div class="wrap-item" onclick="viewItem(this)">
+								<div class="g2-3">
+									<div class="thumbnail">
+										<img src="{{thumbnail}}" >
+									</div>
+									<div class="name">
+										<h3>{{title}}</h3>
+										<span class="location">
+											{{subtitle}}
+										</span>
+									</div>
+									<div class="clearfix"></div>
+								</div>
+								<div class="g1-3">
+									<span class="value">${{price}}</span>
+								</div>
+								<div class="clearfix"></div>
+							</div>
+							<label class="icon-delete" onclick="deleteItem({{id}})"></label>
+						</li>
+						{{/items}}
+					</div>
+				</div>
+
+		    </div>
+
+		    <!-- AppInfo -->
+		    <div class="page simple" id="appinfo" data-page="appinfo" data-role="page">
+				<div class="header">
+					<div class="top">
+						<button  class="icon-back" type="button">
+						</button>
+						<label>
+							El mejor precio
+						</label>
+					</div>
+				</div>
+				<div class="content">
+					<div class="appinfo">
+						<img src="images/logo-info.png" class="logo-appinfo">
+						
+						
+				        <p class="github">
+				        	<a href="http://evillarruel.github.io/El-mejor-precio/">
+								<img src="images/icon-github.png" class="icon-github">
+								<br>
+				        		Published with GitHub Pages
+				        	</a>
+				         </p>
+					</div>
+				</div>
+
+		    </div>
+
+		    <!-- set locations -->
+		    <div class="page simple" id="setLocations" data-page="setLocations" data-role="page">
+				<div class="header">
+					<div class="top">
+						<button  class="icon-back" type="button">
+						</button>
+						<label>
+							El mejor precio
+						</label>
+					</div>
+				</div>
+				<div class="content">
+					<div class="location-selected">
+						<label>
+							Las búsquedas se realizan en: 
+						</label>
+						<label class="selected">
+							<img src="images/icon-locations.png">
+							<span class="state"> 
+							</span>
+						</label>
+						<label>
+							Si quieres realizar la búsqueda en otro lugar, selecciona alguno de la siguiente lista.
+						</label>
+					</div>
+					<div class="locations-list">
+						<ul>
+							<li><a id="all" href="#">Todo en País</a></li>
+						</ul>
+					</div>
+					<div class="tmp-states" style="display: none;">
+						{{#states}}
+							<li><a id="{{id}}" href="#">{{name}}</a></li>
+						{{/states}}
+					</div>
+				</div>
+
+		    </div>
+
+		    <!-- Recents serchs -->
+		    <div class="page simple" id="recentSerch" data-page="recentSerch" data-role="page">
+				<div class="header">
+					<div class="top">
+						<button  class="icon-back" type="button">
+						</button>
+						<label>
+							El mejor precio
+						</label>
+					</div>
+				</div>
+				<div class="content">
+					<div class="recent-top">
+						<label>
+							Las ultimas busquedas que realizaste!
+						</label>
+					</div>
+					<div class="recent-list">
+						<ul>
+						</ul>
+						<p class="list-result-alert">Oops! Todavia no has realizado ninguna busqueda.</p>
+					</div>
+					<div class="tmp-recents" style="display: none;">
+						{{#recentsQuerys}}
+							<li>
+								<a id="{{query}}" href="#">
+									<label>
+										{{query}}
+									</label>
+									<label class="date">{{date}}</label>
+									<label class="location-label">Está búsqueda fue realizada en {{locationName}}</label>
+								</a>
+							</li>
+						{{/recentsQuerys}}
+					</div>
+				</div>
+
+		    </div>
+
+			<div class="footer" >
+				<ul>
+					<li>
+						<label class="btn-favorite" href="">
+							<img src="images/icon-favorites.png" alt="Favoritos">
+							Favoritos
+						</label>
+					</li>
+					<li>
+						<label class="btn-recents" href="">
+							<img src="images/icon-recents.png" alt="Recientes">
+							Recientes
+						</label>
+					</li>
+					<li>
+						<label class="btn-location">
+							<img src="images/icon-locations.png" alt="Localizaci&#243;n">
+							Localizaci&#243;n
+						</label>
+					</li>
+					<li>
+						<label class="btn-information" href="">
+							<img src="images/icon-info.png" alt="App info">
+							App Info
+						</label>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="data-hidden" style="display:none"></div>
+        <script type="text/javascript" src="js/cordova-2.7.0.js"></script>
+        <script type="text/javascript" src="js/zepto.min.js"></script>
+        <script type="text/javascript" src="js/mercadolibre-1.0.4.js"></script>
+        <script type="text/javascript" src="js/init.js"></script>
+        <script type="text/javascript" src="js/chico-mobile-min-0.6.js"></script>
+        <script type="text/javascript" src="js/mustache.js"></script>
+        <!--script type="text/javascript">
+            app.initialize();
+        </script -->
+    </body>
+</html>
