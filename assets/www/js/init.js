@@ -3,22 +3,7 @@ $(document).ready(function(){
 		get_location();
 		uiPageSet();
 	})
-	
 });
-/*
-this.addLocation = function(event) {
-    event.preventDefault();
-    console.log('addLocation');
-    navigator.geolocation.getCurrentPosition(
-        function(position) {
-            $('.location', this.el).html(position.coords.latitude + ',' + position.coords.longitude);
-        },
-        function() {
-            alert('Error getting location');
-        });
-    return false;
-};
-*/
 var MELI_URL = "https://api.mercadolibre.com";
 var query;
 var queryResults;
@@ -37,7 +22,6 @@ var itemFavirite = new Array();
 var logFavoriteEmail = {};
 var condition = 'new';
 var userId;
-//stateId = "AR-C";
 var filterState;
 
 logFavoriteEmail.setEmail = false;
@@ -263,7 +247,13 @@ function loadLogFavotites(){
 	var email =  $('.email-favorites').val();
 	var filter=/^[A-Za-z][A-Za-z0-9_]*@[A-Za-z0-9_]+\.[A-Za-z0-9_.]+[A-za-z]$/;
 	if (filter.test(email)){
-		alert("La dirección de email " + email + " es correcta.");
+
+		navigator.notification.alert(
+			"Tu dirección de email es: " + email ,      // (message)
+			alertDismissed,         										// (alertCallback)
+			'Gracias',            							// (title)
+			'Ok'                											// (buttonName)
+		);
 		logFavoriteEmail.setEmail = true;
 		logFavoriteEmail.email = email;
 		logFavoriteEmail.favorites = itemFavirite;
@@ -273,7 +263,12 @@ function loadLogFavotites(){
 		$('.favorites-user-in .id').html(logFavoriteEmail.email);
 		$('.favorites-user-in').show();
 	} else {
-		alert("La dirección de email es incorrecta.");
+		navigator.notification.alert(
+			"La dirección de email " + email + " es correcta.",      // (message)
+			alertDismissed,         										// (alertCallback)
+			'Error en tu email',            							// (title)
+			'Intentar de nuevo'                											// (buttonName)
+		);
 	}
 }
 function resentLogFavotites () {
