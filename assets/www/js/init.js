@@ -632,6 +632,7 @@ $('.icon-back').click(function(){
 	$('#index .loading').hide();
 	$('.page').removeClass('active');
 	$(parentPage).addClass('active')
+	$('.btn-myfavorite').animate({opacity:1},0);
 	parentPage = '#index';
 });
 $('#productDetails .icon-back').click(function(){
