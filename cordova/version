@@ -16,24 +16,17 @@
 # specific language governing permissions and limitations
 # under the License.
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-PROJECT_PATH=$( cd "$DIR/.." && pwd )
+set -e
 
-if [[ "$#" -eq 1 ]] ; then
-    if [[ $1 == "--debug" ]] ; then
-        $DIR/clean
-        ant debug -f "$PROJECT_PATH"/build.xml
-    elif [[ $1 == "--release" ]] ; then
-        $DIR/clean
-        ant release -f "$PROJECT_PATH"/build.xml
-    elif [[ $1 == "--nobuild" ]] ; then
-        echo "Skipping build..."
-    else
-        echo "Error : Build command '$1' not recognized."
-        exit 2
-    fi
+CORDOVA_PATH=$( cd "$( dirname "$0" )" && pwd -P)
+PROJECT_PATH="$(dirname "$CORDOVA_PATH")"
+
+VERSION_FILE_PATH="$PROJECT_PATH/assets/www/cordova.js"
+
+if [ -f "$VERSION_FILE_PATH" ]; then
+    JSVersion=$(sed -n '2,2p' $VERSION_FILE_PATH)
+    echo $JSVersion | sed -e 's/\/\/ //'| cut -f 1 -d '-'
 else
-    echo "Warning : [ --debug | --release | --nobuild ] not specified, defaulting to --debug"
-    $DIR/clean
-    ant debug -f "$PROJECT_PATH"/build.xml
+    echo "The file \"$VERSION_FILE_PATH\" does not exist."
+    exit 1
 fi

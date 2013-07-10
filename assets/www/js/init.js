@@ -69,7 +69,7 @@ function geoSuccess(point) {
 }
 function geoError() {
 	navigator.notification.alert(
-		'Intenta activar tu GPRS o conectarse a una red movil.',      // (message)
+		'Intenta activar tu GPS o conectarse a una red movil.',      // (message)
 		alertDismissed,         										// (alertCallback)
 		'No podemos encontrar tu ubicaci\u00f3n',            							// (title)
 		'Ok'                											// (buttonName)
@@ -480,7 +480,12 @@ function rewriteLocalStorageFavorites(id) {
 	var querys = JSON.parse(localStorage.itemFavirite);
 }
 function msg() {
-	alert('error');
+	navigator.notification.alert(
+		'Intenta activar tu GPS o conectarse a una red movil.',      // (message)
+		alertDismissed,         										// (alertCallback)
+		'No podemos encontrar tu ubicaci\u00f3n',            							// (title)
+		'Ok'                											// (buttonName)
+	);
 }
 function getPrices() {
 	var retVal = {};
